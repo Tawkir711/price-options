@@ -1,9 +1,13 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar,  XAxis, YAxis, Tooltip } from 'recharts';
+
+import { Audio, Dna } from "react-loader-spinner";
 
 const Phones = () => {
   const [phones, setPhones] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     // fetch("https://openapi.programming-hero.com/api/phones?search=iphone")
     //   .then(res => res.json())
@@ -20,14 +24,36 @@ const Phones = () => {
           return obj;
         })
         setPhones(phoneWithFakeData);
+        setLoading(false);
     })
   },[])
   return (
     <div>
-      <h2 className='text-5xl'>Phones: {phones.length}</h2>
+      {loading && (
+        <div>
+          <Audio
+            height="80"
+            width="80"
+            radius="9"
+            color="green"
+            ariaLabel="three-dots-loading"
+            wrapperStyle
+            wrapperClass
+          />
+          <Dna
+            visible={true}
+            height="300"
+            width="800"
+            ariaLabel="dna-loading"
+            wrapperStyle={{}}
+            wrapperClass="dna-wrapper"
+          />
+        </div>
+      )}
+      <h2 className="text-5xl">Phones: {phones.length}</h2>
       <BarChart width={1200} height={400} data={phones}>
-        <Bar dataKey={'price'} fill='#8884d8'></Bar>
-        <XAxis dataKey={'name'}></XAxis>
+        <Bar dataKey={"price"} fill="#8884d8"></Bar>
+        <XAxis dataKey={"name"}></XAxis>
         <YAxis></YAxis>
         <Tooltip></Tooltip>
       </BarChart>
